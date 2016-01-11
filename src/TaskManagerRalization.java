@@ -6,7 +6,7 @@ import java.util.Date;
  */
 public class TaskManagerRalization {
     public static void main(String[] args) {
-        /*Task task = retrieveTaskFromDatabase();
+        Task task = retrieveTaskFromDatabase();
         TaskView view = new TaskView();
         TaskController controller = new TaskController(task, view);
 
@@ -15,9 +15,8 @@ public class TaskManagerRalization {
         controller.setTaskName("Переименованная задача");
 
         controller.updateTaskView();
-        */
-        Date date = new Date();
-        System.out.println(date);
+
+
     }
 
     //возвращает Task из базы данных, ...
