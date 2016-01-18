@@ -14,9 +14,5 @@ public class TaskModel {
         taskModel.add(task);
     }
     
-   /* public void createNewTask () {
-    	
-    }*/
-
 
 }

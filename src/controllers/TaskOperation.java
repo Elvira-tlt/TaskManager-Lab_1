@@ -38,9 +38,6 @@ public class TaskOperation {
             String contactsPhone, String contactsName) {
     	task = new Task();
     	setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
-    	//Сохранение задачи(передача сохранения в контроллер)
-    	//taskController.saveTask(task);
-    	
     }
   
     

@@ -2,14 +2,13 @@ package views;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 12.01.2016.
- */
-public class DialogView extends JDialog {
+
+public class DialogForNewTask extends JDialog {
     private JTextField nameTaskField;
     private JTextField descriptionTaskField;
     private JTextField timeAlertsTaskField;
@@ -17,14 +16,13 @@ public class DialogView extends JDialog {
     private JTextField contactsNameField;
 
 
-    public DialogView() {
+    public DialogForNewTask() {
         createLabelAndFieldForContainer();
 
         this.setName("Create new task");
         this.setSize(550, 400);
         this.setVisible(true);
     }
-
 
     public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
                                        JTextField timeAlertsTask, JTextField contactsPhone,
@@ -44,13 +42,13 @@ public class DialogView extends JDialog {
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
         //Creating Label and Field for Container:
-        JLabel nameTaskLabel = new JLabel("Name models.Task");
+        JLabel nameTaskLabel = new JLabel("Name Task");
        nameTaskField = new JTextField();
 
-        JLabel descriptionTaskLabel = new JLabel("Description models.Task");
+        JLabel descriptionTaskLabel = new JLabel("Description Task");
         descriptionTaskField = new JTextField();
 
-        JLabel timeAlertsTaskLabel = new JLabel("Time Alerts's models.Task");
+        JLabel timeAlertsTaskLabel = new JLabel("Time Alerts's Task");
         timeAlertsTaskField = new JTextField();
 
         JLabel contactsLabel = new JLabel("Contacts");
@@ -97,7 +95,5 @@ public class DialogView extends JDialog {
     public String getContactsName() {
         return contactsNameField.getText();
     }
-
-
 
 }

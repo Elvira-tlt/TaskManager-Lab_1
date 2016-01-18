@@ -1,12 +1,9 @@
 package models;
 
-/**
- * Created by User on 05.01.2016.
- */
 public class Task {
     private String name;
     private String description;
-    private String timeAlerts; // проверить формат, Прочитать про дату (время) (time alerts??)
+    private String timeAlerts; // проверить формат, Прочитать про дату (время)
     private String contacts;
 
     public String getName() {
@@ -38,13 +35,16 @@ public class Task {
     }
 
     public void setContacts(String contactsPhone, String contactsName) {
-        //доработать, неверно отображается!!!!
         String contactsData;
-         if ((contactsPhone != null)&& (contactsName != null)) {
-            contactsData = "phone: " + contactsPhone + "\ncontacts name: " + contactsName;
-        } else if ((contactsPhone != null)&& (contactsName == null)) {
+
+        boolean isNotContactPhone = ((contactsPhone==null) || contactsPhone.isEmpty());
+        boolean isNotContactName = ((contactsName==null) || contactsName.isEmpty());
+
+        if (!isNotContactPhone && !isNotContactName) {
+            contactsData = "phone: " + contactsPhone + "\n contacts name: " + contactsName;
+        } else if (!isNotContactPhone && isNotContactName) {
             contactsData = "phone: " + contactsPhone;
-        } else if ((contactsPhone == null)&& (contactsName != null)) {
+        } else if (isNotContactPhone && !isNotContactName) {
             contactsData = "contacts name: " + contactsName;
         } else {
             contactsData = " ";

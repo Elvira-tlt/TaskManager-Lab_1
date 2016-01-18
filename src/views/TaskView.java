@@ -4,29 +4,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import controllers.TaskController;
 
 public class TaskView {
     TaskController taskController;
-    DialogView dialogCreatingTask;
+    DialogForNewTask dialogCreatingTask;
+    TableModelViewAllTasks tableModelViewAllTasks;
+
 
     public void setTaskController (TaskController taskController) {
         this.taskController = taskController;
     }
-
-    //реализовать методы:
-    //      выводящие информацию о задаче
-    //      для создания задачи (заполнения полей) ?????????
 
     public void printTaskDetails (String taskName, String taskDescription,
                                   Date taskNotificationDate, String taskContacts) {
@@ -37,13 +35,39 @@ public class TaskView {
     }
 
     public void createJFrame () {
-        JFrame frame = new JFrame("models.Task Manager");
-        JButton createTaskButton = new JButton("Create models.Task / Создать задачу");
-        JButton viewTasksButton = new JButton("View Tasks/ Посмотреть задачи");
+        JFrame frame = new JFrame("Task Manager");
+        JButton createTaskButton = new JButton("Create Task / Создать задачу");
+        JButton editTasksButton = new JButton("Edit Tasks/ Редактирование задач");
+        JButton deleteTaskButton = new JButton("Delete task / Удалить задачу");
         JPanel panelButtons = new JPanel();
+        JPanel panelViewAllTasks = new JPanel();
+
+        //Panel view all tasks:
+        tableModelViewAllTasks = new TableModelViewAllTasks(taskController.getAllTasksModel());
+        JTable tableViewAllTasks = new JTable(tableModelViewAllTasks);
+
+      /*  panelViewAllTasks.add(new BorderLayout().NORTH,new JLabel("Созданные задачи"));*/
+        panelViewAllTasks.add(tableViewAllTasks);
+        panelViewAllTasks.add(new JScrollPane(tableViewAllTasks));
+
+
+
+        tableViewAllTasks.setRowHeight(40);
+
+
+        //ДОДЕЛАТЬ ФОРМАТИРОВАНИЕ РАЗМЕРА КОЛОНОК:
+      /*  tableViewAllTasks.getTableHeader().setResizingAllowed(false);
+        tableViewAllTasks.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tableViewAllTasks.getColumnModel().getColumn(0).setPreferredWidth(190);
+        //tableViewAllTasks.getColumnModel().getColumn(2).setMinWidth(90);
+        tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(200);*/
+       // tableViewAllTasks.getColumnModel().getColumn(2).setPreferredWidth(10);
+
+
 
         createTaskButton.setToolTipText("Создание новой задачи");
-        viewTasksButton.setToolTipText("Просмотреть имеющиеся задачи");
+        editTasksButton.setToolTipText("Редактирование задач");
+        deleteTaskButton.setToolTipText("Удалить выбранную задачу");
 
 
         createTaskButton.addActionListener(new ActionListener() {
@@ -53,28 +77,38 @@ public class TaskView {
             }
         });
 
+        //Редактирование задач
+        /*editTasksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+            }
+        });*/
+
+        panelButtons.setLayout(new GridLayout(8, 1));
         panelButtons.add(createTaskButton);
-        panelButtons.add(viewTasksButton);
-        panelButtons.setBorder(new TitledBorder(""));
+        panelButtons.add(new JLabel(" "));
+        panelButtons.add(editTasksButton);
+        panelButtons.add(new JLabel(" "));
+        panelButtons.add(deleteTaskButton);
 
-       // panelButtons.setSize(10,40);
 
+        //panelButtons.setBorder(new TitledBorder(""));
 
+        //panelButtons.setSize(10,40);
 
       // panelButtons.setLayout(new BorderLayout().EAST);
-
-
-        frame.add(/*new BorderLayout().EAST, */panelButtons);
         frame.setLayout(new FlowLayout());
+        frame.add(new BorderLayout().WEST, panelViewAllTasks);
+        frame.add(new BorderLayout().EAST, panelButtons);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(500, 350);
+        frame.setSize(750, 500);
         frame.setVisible(true);
     }
 
 
     private void createDialogForNewTask () {
-        dialogCreatingTask = new DialogView();
+        dialogCreatingTask = new DialogForNewTask();
         createButtonsAndListenerForDialog(dialogCreatingTask);
         
     }
@@ -93,51 +127,36 @@ public class TaskView {
                 taskController.saveNewTask(dialogCreatingTask.getNameTask(), dialogCreatingTask.getDescriptionTask(),
                         dialogCreatingTask.getTimeAlertsTask(), dialogCreatingTask.getContactsPhone(),
                         dialogCreatingTask.getContactsName());
+
+                Set<TableModelListener> listenersTableModel = tableModelViewAllTasks.getListeners();
+                Iterator<TableModelListener> listenersIterator = listenersTableModel.iterator();
+                while (listenersIterator.hasNext()) {
+                    TableModelListener listenerElem = listenersIterator.next();
+                    listenerElem.tableChanged(new TableModelEvent(tableModelViewAllTasks));
+                }
                 dialogCreatingTask.dispose();
             }
         });
 
-        cancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //м.б. добавить запрос на отмену заполнения формы для новой задачи??
-                JDialog dialogExitFromCreatingTask = new JDialog();
-                JLabel questionAboutExit = new JLabel("Are you sure you want to exit the task creation? All unsaved data will be lost.");
-                JPanel exitButtonsPanel = new JPanel();
-                JButton okExit = new JButton("Yes, exit");
-                JButton cancelExit = new JButton("Cancel exit");
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+                //ВЫВОДИТЬ, ЕСЛИ ВВЕДЕНО ХОТЬ КАКОЕ-ТО ЗНАЧЕНИЕ, ЕСЛИ НЕТ, ТО ПРОСТО ВЫХОДИТЬ, НЕ ЗАПРАШИВАЯ СОХРАНЕНИЯ ДАННЫХ
+				createDialogExit(dialogWindow);
 
-                exitButtonsPanel.add(okExit);
-                exitButtonsPanel.add(cancelExit);
-
-                //exitButtonsPanel.setLayout(new FlowLayout());
-
-                dialogExitFromCreatingTask.add(questionAboutExit);
-                dialogExitFromCreatingTask.add(new BorderLayout().SOUTH, exitButtonsPanel);
-
-                dialogExitFromCreatingTask.setLayout(new FlowLayout());
-                dialogExitFromCreatingTask.setSize(600,120);
-                dialogExitFromCreatingTask.setVisible(true);
-
-
-
-
-
-                dialogWindow.dispose();
-            }
-        });
+			}
+		});
 	
-		
-		//
-		
-		//ДОбавить панель для кнопок
+		//Добавить панель для кнопок
 		buttonsPanel.add(ok);
 		buttonsPanel.add(cancel);
 		
 	}
+	
+	private void createDialogExit(JDialog dialogWindow){
+		new DialogForExit().exitingFromOtherDialog(dialogWindow);
+	}
    
-    
-    
     public static void main(String[] args) {
         TaskView view = new TaskView();
         view.createJFrame();
