@@ -10,6 +10,11 @@ public class TaskManagerRalization {
 	private static TaskView view;
 	private static TaskController controller;
 
+	public static void main(String[] args) {
+		TaskManagerRalization taskManager = new TaskManagerRalization();
+		taskManager.startingTaskManager();
+	}
+	
 	public TaskManagerRalization() {
 		model = new TaskModel();
 		view = new TaskView();
@@ -17,13 +22,8 @@ public class TaskManagerRalization {
         view.setTaskController(controller);
 	}
 
-	public static void main(String[] args) {
-		TaskManagerRalization taskManager = new TaskManagerRalization();
-		taskManager.startingTaskManager();
-	}
-
 	private void startingTaskManager() {
-		view.createJFrame();
+		view.createMainWindow();
 	}
 
 	private static Task getNewTask() {

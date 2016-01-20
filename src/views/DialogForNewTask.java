@@ -17,33 +17,13 @@ public class DialogForNewTask extends JDialog {
 
 
     public DialogForNewTask() {
-        createLabelAndFieldForContainer();
-
-        this.setName("Create new task");
-        this.setSize(550, 400);
-        this.setVisible(true);
-    }
-
-    public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
-                                       JTextField timeAlertsTask, JTextField contactsPhone,
-                                       JTextField contactsName) {
-        this.nameTaskField = nameTask;
-        this.descriptionTaskField = descriptionTask;
-        this.timeAlertsTaskField = timeAlertsTask;
-        this.contactsPhoneField = contactsPhone;
-        this.contactsNameField = contactsName;
-    }
-
-
-    private void createLabelAndFieldForContainer() {
-        //Create Panel For Labels and Fields
         JPanel labelAndFieldPanel = new JPanel(new GridLayout(6, 2));
         labelAndFieldPanel.setBorder(new TitledBorder(" Fill out the information on the task to be created")); //ЗАПОЛНИТЬ???
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
         //Creating Label and Field for Container:
         JLabel nameTaskLabel = new JLabel("Name Task");
-       nameTaskField = new JTextField();
+        nameTaskField = new JTextField();
 
         JLabel descriptionTaskLabel = new JLabel("Description Task");
         descriptionTaskField = new JTextField();
@@ -73,6 +53,12 @@ public class DialogForNewTask extends JDialog {
         labelAndFieldPanel.add(contactsPhoneField);
         labelAndFieldPanel.add(contactsNameLabel);
         labelAndFieldPanel.add(contactsNameField);
+
+
+
+        this.setName("Create new task");
+        this.setSize(550, 400);
+        this.setVisible(true);
     }
 
 
@@ -96,4 +82,37 @@ public class DialogForNewTask extends JDialog {
         return contactsNameField.getText();
     }
 
+
+
+
+
+    public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
+                                       JTextField timeAlertsTask, JTextField contactsPhone,
+                                       JTextField contactsName) {
+        this.nameTaskField = nameTask;
+        this.descriptionTaskField = descriptionTask;
+        this.timeAlertsTaskField = timeAlertsTask;
+        this.contactsPhoneField = contactsPhone;
+        this.contactsNameField = contactsName;
+    }
+
+    public void setTextForFieldDialog(String nameTask, String descriptionTask,
+                                       String timeAlertsTask, String contactsPhone,
+                                       String contactsName) {
+        this.nameTaskField.setText(nameTask);
+        this.descriptionTaskField.setText(descriptionTask);
+        this.timeAlertsTaskField.setText(timeAlertsTask);
+        this.contactsPhoneField.setText(contactsPhone);
+        this.contactsNameField.setText(contactsName);
+
+
+
+
+    }
+
+
+   /* private void createLabelAndFieldForContainer() {
+        //Create Panel For Labels and Fields
+
+*/
 }

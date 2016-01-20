@@ -30,4 +30,31 @@ public class TaskController {
         model.addTaskToModel(taskOperation.getTaskForSave());
     }
     
+    public void deleteSelectedTask (int numberTaskInListTasks) {
+    	/*List<Task> tasks = model.getTaskModel();
+    	Task taskForDelete = tasks.get(numberTaskInListTasks);*/
+    	model.deleteTaskFromModel(numberTaskInListTasks);
+    	
+    }
+
+    //for editing task's datas:
+   public String getTasknameTaskField(Task task) {
+       taskOperation.setTask(task);
+       return taskOperation.getTaskName();
+   }
+    public String getdescriptionTaskField(Task task) {
+        return taskOperation.getTaskDescription();
+    }
+    public String getimeAlertsTaskField(Task task) {
+        return taskOperation.getTaskTimeAlerts();
+    }
+   /* public String gecontactsPhoneField(Task task) {
+        return taskOperation.getTaskName();
+    }
+    public String getContactsNameField(Task task) {
+        return taskOperation.getTaskName();
+    }*/
+
+
+    
 }

@@ -14,5 +14,14 @@ public class TaskModel {
         taskModel.add(task);
     }
     
+    public void deleteTaskFromModel (int numberTaskInListTasks) {
+    	taskModel.remove(numberTaskInListTasks);
+	}
+
+    
+    
+    
+    
+    
 
 }

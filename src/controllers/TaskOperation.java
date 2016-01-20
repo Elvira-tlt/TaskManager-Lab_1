@@ -6,17 +6,15 @@ public class TaskOperation {
 	private Task task;
 	private TaskController taskController;
 	
-	/*public void setTask(Task task) {
+	public void setTask(Task task) {
 		this.task = task;
-	}*/
+	}
 	
 	public TaskOperation(TaskController taskController) {
 		this.taskController = taskController;
 	}
 	
-	
-	
-	//Setters models.Task
+	//Setters models Task
     public void setTaskName (String name) {
         task.setName(name);
     }
@@ -56,7 +54,7 @@ public class TaskOperation {
     
     
     
-  //Getters models.Task
+  //Getters models Task
     public String getTaskName() {
         return task.getName();
     }
@@ -65,7 +63,7 @@ public class TaskOperation {
         return task.getDescription();
     }
 
-    public String getTaskNotificationDate() {
+    public String getTaskTimeAlerts() {
         return task.getTimeAlerts();
     }
 
