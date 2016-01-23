@@ -4,7 +4,8 @@ public class Task {
     private String name;
     private String description;
     private String timeAlerts; // проверить формат, Прочитать про дату (время)
-    private String contacts;
+    private String contactsPhone;
+    private String contactsName;
 
     public String getName() {
         return name;
@@ -30,11 +31,11 @@ public class Task {
         this.timeAlerts = timeAlerts;
     }
 
-    public String getContacts() {
-        return contacts;
+    public String getContactsPhone() {
+        return contactsPhone;
     }
 
-    public void setContacts(String contactsPhone, String contactsName) {
+    /*public void setContacts(String contactsPhone, String contactsName) {
         String contactsData;
 
         boolean isNotContactPhone = ((contactsPhone==null) || contactsPhone.isEmpty());
@@ -50,10 +51,22 @@ public class Task {
             contactsData = " ";
         }
     	this.contacts = contactsData;
+    }*/
+    
+    public void setContactsPhone(String contactsPhone) {
+        this.contactsPhone = contactsPhone;
+    }
+    
+    public String getContactsName() {
+        return contactsName;
+    }
+    
+    public void setContactsName(String contactsName) {
+        this.contactsName = contactsName;
     }
 
     //ПОЗЖЕ УДАЛИТЬ:
     public String toString () {
-        return "Task:"+ name + " " + description+ " " + timeAlerts + " " + contacts;
+        return "Task:"+ name + " " + description+ " " + timeAlerts + " " + contactsPhone + " " + contactsName;
     }
 }

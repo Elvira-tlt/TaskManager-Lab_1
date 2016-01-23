@@ -27,10 +27,13 @@ public class TaskOperation {
         task.setTimeAlerts(timeAlerts);
     }
     
-    public void setTaskContacts(String contactsPhone, String contactsName) {
-        task.setContacts(contactsPhone, contactsName);
+    public void setTaskContactsPhone(String contactsPhone) {
+        task.setContactsPhone(contactsPhone);
     }
     
+    public void setTaskContactsName(String contactsName) {
+        task.setContactsName(contactsName);
+    }
     
     public void createNewTaskFullFields(String nameTask, String descriptionTask, String timeAlertsTask,
             String contactsPhone, String contactsName) {
@@ -39,12 +42,14 @@ public class TaskOperation {
     }
   
     
-    private void setFieldsTask(String nameTask, String descriptionTask, String timeAlertsTask,
+    public void setFieldsTask(String nameTask, String descriptionTask, String timeAlertsTask,
                                String contactsPhone, String contactsName) {
         setTaskName(nameTask);
         setTaskDescription(descriptionTask);
         setTaskTimeAlerts(timeAlertsTask); //Преобразовать в Дату
-        setTaskContacts(contactsPhone, contactsName);
+        setTaskContactsPhone(contactsPhone);
+        setTaskContactsName(contactsName);
+        
     }
     
     public Task getTaskForSave () {
@@ -67,8 +72,12 @@ public class TaskOperation {
         return task.getTimeAlerts();
     }
 
-    public String getTaskContacts() {
-        return task.getContacts();
+    public String getTaskContactsPhone() {
+        return task.getContactsPhone();
+    }
+    
+    public String getTaskContactsName() {
+        return task.getContactsName();
     }
     
 

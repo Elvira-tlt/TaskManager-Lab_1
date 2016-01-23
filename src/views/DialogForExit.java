@@ -15,7 +15,7 @@ public class DialogForExit extends JDialog {
 	public void exitingFromOtherDialog(JDialog otherDialogForExit) {
 		JDialog dialogExitFromCreatingTask = new JDialog();
         JLabel questionAboutExit = new JLabel("Are you sure you want to exit the task creation? All unsaved data will be lost.");
-        JPanel exitButtonsPanel = new JPanel();
+        JPanel buttonsPanel = new JPanel();
         JButton okExit = new JButton("Yes, exit");
         JButton cancelExit = new JButton("Cancel exit");
         
@@ -36,11 +36,11 @@ public class DialogForExit extends JDialog {
 		});	
         
 
-        exitButtonsPanel.add(okExit);
-        exitButtonsPanel.add(cancelExit);
+        buttonsPanel.add(okExit);
+        buttonsPanel.add(cancelExit);
 
         dialogExitFromCreatingTask.add(questionAboutExit);
-        dialogExitFromCreatingTask.add(new BorderLayout().SOUTH, exitButtonsPanel);
+        dialogExitFromCreatingTask.add(new BorderLayout().SOUTH, buttonsPanel);
 
         dialogExitFromCreatingTask.setLayout(new FlowLayout());
         dialogExitFromCreatingTask.setSize(600,120);

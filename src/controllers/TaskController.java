@@ -36,24 +36,33 @@ public class TaskController {
     	model.deleteTaskFromModel(numberTaskInListTasks);
     	
     }
+    
+    public void setFieldsTaskFromModel(int countSelectedRows,String nameTask, String descriptionTask, String timeAlertsTask,
+            String contactsPhone, String contactsName) {
+    	taskOperation.setTask(model.getTaskModel().get(countSelectedRows)); 
+    	
+    	taskOperation.setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
+}
 
     //for editing task's datas:
+   
+    
    public String getTasknameTaskField(Task task) {
        taskOperation.setTask(task);
        return taskOperation.getTaskName();
    }
-    public String getdescriptionTaskField(Task task) {
+    public String getDescriptionTaskField() {
         return taskOperation.getTaskDescription();
     }
-    public String getimeAlertsTaskField(Task task) {
+    public String getTimeAlertsTaskField() {
         return taskOperation.getTaskTimeAlerts();
     }
-   /* public String gecontactsPhoneField(Task task) {
-        return taskOperation.getTaskName();
+   public String getContactsPhoneField() {
+        return taskOperation.getTaskContactsPhone();
     }
-    public String getContactsNameField(Task task) {
-        return taskOperation.getTaskName();
-    }*/
+    public String getContactsNameField() {
+        return taskOperation.getTaskContactsName();
+    }
 
 
     

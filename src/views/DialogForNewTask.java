@@ -22,13 +22,13 @@ public class DialogForNewTask extends JDialog {
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
         //Creating Label and Field for Container:
-        JLabel nameTaskLabel = new JLabel("Name Task");
+        JLabel nameTaskLabel = new JLabel("Name Task *");
         nameTaskField = new JTextField();
 
         JLabel descriptionTaskLabel = new JLabel("Description Task");
         descriptionTaskField = new JTextField();
 
-        JLabel timeAlertsTaskLabel = new JLabel("Time Alerts's Task");
+        JLabel timeAlertsTaskLabel = new JLabel("Time Alerts's Task *");
         timeAlertsTaskField = new JTextField();
 
         JLabel contactsLabel = new JLabel("Contacts");

@@ -2,10 +2,7 @@ package views;
 
 import models.Task;
 
-import javax.swing.*;
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +20,8 @@ public class TableModelViewAllTasks implements TableModel {
             Task task = new Task();
             task.setName("Task#" + i);
             task.setDescription("" + i);
-            task.setContacts("" + i+i+3+i+6+7, "name#"+i);
+            task.setContactsPhone("" + i+i+3+i+6+7 );
+            task.setContactsName("name#"+i);
             task.setTimeAlerts(""+1+i+"."+12+"."+2015+"");
 
             tasks.add(task);
@@ -87,7 +85,8 @@ public class TableModelViewAllTasks implements TableModel {
             case 2:
                 return task.getTimeAlerts();
             case 3:
-                return task.getContacts();
+            	String gettingContacts = getContacts(task.getContactsPhone(), task.getContactsName());
+            	return gettingContacts;
         }
         return " ";
     }
@@ -99,6 +98,25 @@ public class TableModelViewAllTasks implements TableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    }
+    
+    
+    private String getContacts(String contactsPhone, String contactsName) {
+        String contactsData;
+
+        boolean isNotContactPhone = ((contactsPhone==null) || contactsPhone.isEmpty());
+        boolean isNotContactName = ((contactsName==null) || contactsName.isEmpty());
+
+        if (!isNotContactPhone && !isNotContactName) {
+            contactsData = "phone: " + contactsPhone + "\n contacts name: " + contactsName;
+        } else if (!isNotContactPhone && isNotContactName) {
+            contactsData = "phone: " + contactsPhone;
+        } else if (isNotContactPhone && !isNotContactName) {
+            contactsData = "contacts name: " + contactsName;
+        } else {
+            contactsData = " ";
+        }
+    	return contactsData;
     }
 
 
