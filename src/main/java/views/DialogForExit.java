@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 public class DialogForExit extends JDialog {
 
-	public void exitingFromOtherDialog(JDialog otherDialogForExit) {
-		JDialog dialogExitFromCreatingTask = new JDialog();
+	public void exitingFromOtherDialog(final JDialog otherDialogForExit) {
+		final JDialog dialogExitFromCreatingTask = new JDialog();
         JLabel questionAboutExit = new JLabel("Are you sure you want to exit the task creation? All unsaved data will be lost.");
         JPanel buttonsPanel = new JPanel();
         JButton okExit = new JButton("Yes, exit");

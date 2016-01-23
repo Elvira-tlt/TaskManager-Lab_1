@@ -40,7 +40,7 @@ public class TaskView {
 
         //Panel view all tasks:
         tableModelViewAllTasks = new TableModelViewAllTasks(taskController.getAllTasksModel());
-        JTable tableViewAllTasks = new JTable(tableModelViewAllTasks);
+        final JTable tableViewAllTasks = new JTable(tableModelViewAllTasks);
 
         //frame.add(new BorderLayout().NORTH,new JLabel("Созданные задачи"));
         panelViewAllTasks.add(tableViewAllTasks);
@@ -177,8 +177,8 @@ public class TaskView {
     }
     
     
-    private void creatingDialogForEditingTask(int countSelectedRows) {
-    	DialogForNewTask dialogForEditingTask = new DialogForNewTask();
+    private void creatingDialogForEditingTask(final int countSelectedRows) {
+    	final DialogForNewTask dialogForEditingTask = new DialogForNewTask();
         Task taskForEditing = taskController.getAllTasksModel().get(countSelectedRows);
 
         dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
