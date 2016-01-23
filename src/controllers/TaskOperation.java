@@ -2,6 +2,8 @@ package controllers;
 
 import models.Task;
 
+import java.util.Date;
+
 public class TaskOperation {
 	private Task task;
 	private TaskController taskController;
@@ -23,7 +25,7 @@ public class TaskOperation {
         task.setDescription(description);
     }
 
-    public void setTaskTimeAlerts(String  timeAlerts) {
+    public void setTaskTimeAlerts(String timeAlerts) {
         task.setTimeAlerts(timeAlerts);
     }
     

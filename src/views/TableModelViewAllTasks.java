@@ -4,6 +4,8 @@ import models.Task;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,9 +22,9 @@ public class TableModelViewAllTasks implements TableModel {
             Task task = new Task();
             task.setName("Task#" + i);
             task.setDescription("" + i);
-            task.setContactsPhone("" + i+i+3+i+6+7 );
-            task.setContactsName("name#"+i);
-            task.setTimeAlerts(""+1+i+"."+12+"."+2015+"");
+            task.setContactsPhone("" + i + i + 3 + i + 6 + 7);
+            task.setContactsName("name#" + i);
+            task.setTimeAlerts("" + i + i+ ".1"  + i + "." + "2015" ); ///// ПОСМОТРЕТЬ
 
             tasks.add(task);
         }

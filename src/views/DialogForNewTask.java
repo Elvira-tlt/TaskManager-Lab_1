@@ -4,11 +4,16 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class DialogForNewTask extends JDialog {
+    public JPanel labelAndFieldPanel;
+
     private JTextField nameTaskField;
     private JTextField descriptionTaskField;
     private JTextField timeAlertsTaskField;
@@ -17,27 +22,30 @@ public class DialogForNewTask extends JDialog {
 
 
     public DialogForNewTask() {
-        JPanel labelAndFieldPanel = new JPanel(new GridLayout(6, 2));
-        labelAndFieldPanel.setBorder(new TitledBorder(" Fill out the information on the task to be created")); //ЗАПОЛНИТЬ???
+      //  DateFormat format = new SimpleDateFormat("dd.MMMM.yyyy hh:mm");
+
+
+        labelAndFieldPanel = new JPanel(new GridLayout(6, 2));
+        labelAndFieldPanel.setBorder(new TitledBorder(" Заполните информацию о создаваемой вами задаче")); //ЗАПОЛНИТЬ???
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
         //Creating Label and Field for Container:
-        JLabel nameTaskLabel = new JLabel("Name Task *");
+        JLabel nameTaskLabel = new JLabel("Название/имя задачи *");
         nameTaskField = new JTextField();
 
-        JLabel descriptionTaskLabel = new JLabel("Description Task");
+        JLabel descriptionTaskLabel = new JLabel("Описание");
         descriptionTaskField = new JTextField();
 
-        JLabel timeAlertsTaskLabel = new JLabel("Time Alerts's Task *");
+        JLabel timeAlertsTaskLabel = new JLabel("Дата и время напоминания/выполнения *");
         timeAlertsTaskField = new JTextField();
 
-        JLabel contactsLabel = new JLabel("Contacts");
+        JLabel contactsLabel = new JLabel("Контактная информация:");
         JLabel nullLabel = new JLabel();
 
-        JLabel contactsPhoneLabel = new JLabel("          - contacts Phone");
+        JLabel contactsPhoneLabel = new JLabel("          - контактный телефон");
         contactsPhoneField = new JTextField();
 
-        JLabel contactsNameLabel = new JLabel("           - contacts Name");
+        JLabel contactsNameLabel = new JLabel("           - контактное лицо");
         contactsNameField = new JTextField();
 
         //Adding components:
@@ -87,7 +95,7 @@ public class DialogForNewTask extends JDialog {
 
 
     public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
-                                       JTextField timeAlertsTask, JTextField contactsPhone,
+                                       JFormattedTextField timeAlertsTask, JTextField contactsPhone,
                                        JTextField contactsName) {
         this.nameTaskField = nameTask;
         this.descriptionTaskField = descriptionTask;
@@ -97,7 +105,7 @@ public class DialogForNewTask extends JDialog {
     }
 
     public void setTextForFieldDialog(String nameTask, String descriptionTask,
-                                       String timeAlertsTask, String contactsPhone,
+                                      String timeAlertsTask, String contactsPhone,
                                        String contactsName) {
         this.nameTaskField.setText(nameTask);
         this.descriptionTaskField.setText(descriptionTask);
