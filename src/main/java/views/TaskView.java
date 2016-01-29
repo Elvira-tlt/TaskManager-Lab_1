@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -13,13 +12,13 @@ import javax.swing.event.TableModelListener;
 
 import models.Task;
 import controllers.TaskController;
+//import org.jdatepicker.AbstractDateModel;
 
 public class TaskView {
     TaskController taskController;
     DialogForNewTask dialogCreatingTask;
     TableModelViewAllTasks tableModelViewAllTasks;
     InformationDialog informationDialog;
-
 
     public void setTaskController(TaskController taskController) {
         this.taskController = taskController;
@@ -58,13 +57,13 @@ public class TaskView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int[] countSelectedRows = tableViewAllTasks.getSelectedRows();
-                if (countSelectedRows.length >0 ){
-                	for (int i = 0; i < countSelectedRows.length; i++) {
-                    	creatingDialogForEditingTask(countSelectedRows[i]);
+                if (countSelectedRows.length > 0) {
+                    for (int i = 0; i < countSelectedRows.length; i++) {
+                        creatingDialogForEditingTask(countSelectedRows[i]);
                     }
                 } else {
-                	informationDialog = new InformationDialog();
-                	informationDialog.setTextInformationLabel("Выберите задачу для редактирования");
+                    informationDialog = new InformationDialog();
+                    informationDialog.setTextInformationLabel("Выберите задачу для редактирования");
                 }
 
 
@@ -76,16 +75,16 @@ public class TaskView {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 int[] countSelectedRows = tableViewAllTasks.getSelectedRows();
-                if (countSelectedRows.length>0) {
-                	for (int i = countSelectedRows.length - 1; i >= 0; i--) {
+                if (countSelectedRows.length > 0) {
+                    for (int i = countSelectedRows.length - 1; i >= 0; i--) {
                         taskController.deleteSelectedTask(countSelectedRows[i]);
                     }
                     updateTable();
                 } else {
-                	informationDialog = new InformationDialog();
-                	informationDialog.setTextInformationLabel("Выберите задачу для удаления");
+                    informationDialog = new InformationDialog();
+                    informationDialog.setTextInformationLabel("Выберите задачу для удаления");
                 }
-                
+
             }
         });
 
@@ -98,16 +97,23 @@ public class TaskView {
         panelButtons.add(deleteTaskButton);
 
 
+
+
+
+
+
+
+
         tableViewAllTasks.setRowHeight(40);
 
         //ДОДЕЛАТЬ ФОРМАТИРОВАНИЕ РАЗМЕРА КОЛОНОК:
-      /*  tableViewAllTasks.getTableHeader().setResizingAllowed(false);
+       /* tableViewAllTasks.getTableHeader().setResizingAllowed(false);
         tableViewAllTasks.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         tableViewAllTasks.getColumnModel().getColumn(0).setPreferredWidth(190);
         //tableViewAllTasks.getColumnModel().getColumn(2).setMinWidth(90);
-        tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(200);*/
+        tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(200);
         // tableViewAllTasks.getColumnModel().getColumn(2).setPreferredWidth(10);
-
+*/
 
         //ДОБАВИТЬ ПЕРЕНОС ДАННЫХ В ЯЧЕЙКЕ НА ДРУГУЮ СТРОКУ:
         //.................
@@ -128,85 +134,52 @@ public class TaskView {
 
 
     private void createDialogForNewTask() {
-        dialogCreatingTask = new DialogForNewTask();
-
+        DialogForNewTask dialogCreatingTask = new DialogForNewTask(DialogType.FOR_CREATING);
+        dialogCreatingTask.createDialogForTask(this);
         dialogCreatingTask.setTitle("Создание новой задачи");
-        
+
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
-        dialogCreatingTask.add(new BorderLayout().SOUTH,buttonsPanel);
-        
-        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), checkDoNameAndTimeAlertsIsEmpty);
-        buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        dialogCreatingTask.add(new BorderLayout().SOUTH, buttonsPanel);
 
-                String taskName = dialogCreatingTask.getNameTask();
-                String taskDescription = dialogCreatingTask.getDescriptionTask();
-                String taskTimeAlerts = dialogCreatingTask.getTimeAlertsTask();
-                String taskContactsPhone = dialogCreatingTask.getContactsPhone();
-                String taskContactsName = dialogCreatingTask.getContactsName();
-
-                // переделать взаимодействие через массив!!!!!!!!!!
-                String[] textFields = new String[]{
-                        taskName,
-                        taskDescription,
-                        taskTimeAlerts,
-                        taskContactsPhone,
-                        taskContactsName};
-
-                //  Boolean fieldDontHaveTexts = taskName.isEmpty() || taskName == null;
-
-                //while (fieldDontHaveTexts==true) {
-                for (int i = 0; i < textFields.length; i++) {
-                    if (textFields[i].isEmpty()) {
-                        if (i == textFields.length - 1) {
-                            dialogCreatingTask.dispose();
-
-                        } else continue;
-
-                    } else {
-                        createDialogExit(dialogCreatingTask);
-                        return;
-                    }
-                }
-
-                // добавить звездочки в название полей
-
-            }
-        });
+        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), dialogCreatingTask.getReadingDateValueForCreating());
+        buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), dialogCreatingTask.getCancelSaveValueFieldDialog() );
     }
-    
-    
+
+
     private void creatingDialogForEditingTask(final int countSelectedRows) {
-    	final DialogForNewTask dialogForEditingTask = new DialogForNewTask();
+
         Task taskForEditing = taskController.getAllTasksModel().get(countSelectedRows);
-
-        dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
-
-
 
         String nameTaskField = taskController.getTasknameTaskField(taskForEditing);
         String descriptionTaskField = taskController.getDescriptionTaskField();
-        String timeAlertsTaskField = taskController.getTimeAlertsTaskField();
+        Date timeAlertsTaskField = taskController.getTimeAlertsTaskField();
         String contactsPhoneField = taskController.getContactsPhoneField();
         String contactsNameField = taskController.getContactsNameField();
 
+        final DialogForNewTask dialogForEditingTask = new DialogForNewTask(DialogType.FOR_EDITING);
+        dialogForEditingTask.setTimeAlertsTaskValue(timeAlertsTaskField);
+        dialogForEditingTask.createDialogForTask(this);
+
         dialogForEditingTask.setTitle("Редактирование задачи: " + nameTaskField);
 
+
+
+
+        dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
+
         dialogForEditingTask.setTextForFieldDialog(nameTaskField, descriptionTaskField,
-                timeAlertsTaskField, contactsPhoneField, contactsNameField);
-        
+                /*timeAlertsTaskField, */contactsPhoneField, contactsNameField);
+
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
         dialogForEditingTask.add(new BorderLayout().SOUTH, buttonsPanel);
-        
-        
-        //добавить лисенеры
-        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), new ActionListener() {
+
+
+        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(),/* new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent arg0) {
                         String taskName = dialogForEditingTask.getNameTask();
                         String taskDescription = dialogForEditingTask.getDescriptionTask();
-                        String taskTimeAlerts = dialogForEditingTask.getTimeAlertsTask();
+                        Date taskTimeAlerts = dialogForEditingTask.getTimeAlertsTask();
                         String taskContactsPhone = dialogForEditingTask.getContactsPhone();
                         String taskContactsName = dialogForEditingTask.getContactsName();
 
@@ -218,10 +191,10 @@ public class TaskView {
                         dialogForEditingTask.dispose();
 
                     }
-                }
+                }*/
         );
-        
-        
+
+
         buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -231,25 +204,11 @@ public class TaskView {
         });
     }
         
-				
-				
-				
-			
-
-        
-    
-				
-			
-    
-    
-    
-
-
-    private void createDialogExit(JDialog dialogWindow) {
+   /* private void createDialogExit(JDialog dialogWindow) {
         new DialogForExit().exitingFromOtherDialog(dialogWindow);
-    }
+    }*/
 
-    private void updateTable() {
+    public void updateTable() {
         Set<TableModelListener> listenersTableModel = tableModelViewAllTasks.getListeners();
         Iterator<TableModelListener> listenersIterator = listenersTableModel.iterator();
         while (listenersIterator.hasNext()) {
@@ -258,13 +217,15 @@ public class TaskView {
         }
     }
 
-    private ActionListener checkDoNameAndTimeAlertsIsEmpty = new ActionListener() {
+
+
+  /* private ActionListener checkDoAllFieldIsEmpty = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
 
             String taskName = dialogCreatingTask.getNameTask();
             String taskDescription = dialogCreatingTask.getDescriptionTask();
-            String taskTimeAlerts = dialogCreatingTask.getTimeAlertsTask();
+            Date taskTimeAlerts = dialogCreatingTask.getTimeAlertsTask();
             String taskContactsPhone = dialogCreatingTask.getContactsPhone();
             String taskContactsName = dialogCreatingTask.getContactsName();
 
@@ -272,50 +233,7 @@ public class TaskView {
             String[] textFields = new String[]{
                     taskName,
                     taskDescription,
-                    taskTimeAlerts,
-                    taskContactsPhone,
-                    taskContactsName};
-
-            Boolean nameDontHaveTextsInField = taskName.isEmpty() || taskName == null;
-
-            Boolean timeAlertDontHaveTextsInField = taskTimeAlerts.isEmpty() || taskTimeAlerts == null;
-
-            if ((nameDontHaveTextsInField) || (timeAlertDontHaveTextsInField)) {
-                System.out.println("поля пустые");
-                // содание информационного окна
-                informationDialog = new InformationDialog();
-                informationDialog.setTextInformationLabel("Поля \"Name Task\" и \"Time Alerts's Task\""
-                        + "обязательно должны быть заполнены!");
-
-
-                // добавить звездочки в название полей
-
-            } else {
-                taskController.saveNewTask(taskName, taskDescription,
-                        taskTimeAlerts, taskContactsPhone,
-                        taskContactsName);
-                updateTable();
-
-                dialogCreatingTask.dispose();
-            }
-        }
-    };
-
-   /* private ActionListener checkDoAllFieldIsEmpty = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String taskName = dialogCreatingTask.getNameTask();
-            String taskDescription = dialogCreatingTask.getDescriptionTask();
-            String taskTimeAlerts = dialogCreatingTask.getTimeAlertsTask();
-            String taskContactsPhone = dialogCreatingTask.getContactsPhone();
-            String taskContactsName = dialogCreatingTask.getContactsName();
-
-            // переделать взаимодействие через массив!!!!!!!!!!
-            String[] textFields = new String[]{
-                    taskName,
-                    taskDescription,
-                    taskTimeAlerts,
+                    //taskTimeAlerts,
                     taskContactsPhone,
                     taskContactsName};
 
@@ -348,7 +266,6 @@ public class TaskView {
 
         }
     };*/
-
 
 }
 

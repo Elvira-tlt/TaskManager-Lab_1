@@ -24,7 +24,7 @@ public class TaskController {
         return model.getTaskModel();
     }
 
-    public void saveNewTask (String nameTask, String descriptionTask, String timeAlertsTask,
+    public void saveNewTask (String nameTask, String descriptionTask, Date timeAlertsTask,
                                 String contactsPhone, String contactsName) {
         taskOperation.createNewTaskFullFields(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
         
@@ -38,7 +38,7 @@ public class TaskController {
     	
     }
     
-    public void setFieldsTaskFromModel(int countSelectedRows,String nameTask, String descriptionTask, String timeAlertsTask,
+    public void setFieldsTaskFromModel(int countSelectedRows,String nameTask, String descriptionTask, Date timeAlertsTask,
             String contactsPhone, String contactsName) {
     	taskOperation.setTask(model.getTaskModel().get(countSelectedRows)); 
     	
@@ -55,7 +55,7 @@ public class TaskController {
     public String getDescriptionTaskField() {
         return taskOperation.getTaskDescription();
     }
-    public String getTimeAlertsTaskField() {
+    public Date getTimeAlertsTaskField() {
         return taskOperation.getTaskTimeAlerts();
     }
    public String getContactsPhoneField() {

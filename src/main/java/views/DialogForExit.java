@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public class DialogForExit extends JDialog {
 
-	public void exitingFromOtherDialog(final JDialog otherDialogForExit) {
+	public void exitingFromOtherDialog(final DialogForNewTask otherDialog) {
 		final JDialog dialogExitFromCreatingTask = new JDialog();
         JLabel questionAboutExit = new JLabel("Are you sure you want to exit the task creation? All unsaved data will be lost.");
         JPanel buttonsPanel = new JPanel();
@@ -23,7 +23,7 @@ public class DialogForExit extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dialogExitFromCreatingTask.dispose();
-				otherDialogForExit.dispose();
+				otherDialog.dispose();
 			}
 		});
         

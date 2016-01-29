@@ -25,7 +25,7 @@ public class TaskOperation {
         task.setDescription(description);
     }
 
-    public void setTaskTimeAlerts(String timeAlerts) {
+    public void setTaskTimeAlerts(Date timeAlerts) {
         task.setTimeAlerts(timeAlerts);
     }
     
@@ -37,14 +37,14 @@ public class TaskOperation {
         task.setContactsName(contactsName);
     }
     
-    public void createNewTaskFullFields(String nameTask, String descriptionTask, String timeAlertsTask,
+    public void createNewTaskFullFields(String nameTask, String descriptionTask, Date timeAlertsTask,
             String contactsPhone, String contactsName) {
     	task = new Task();
     	setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
     }
   
     
-    public void setFieldsTask(String nameTask, String descriptionTask, String timeAlertsTask,
+    public void setFieldsTask(String nameTask, String descriptionTask, Date timeAlertsTask,
                                String contactsPhone, String contactsName) {
         setTaskName(nameTask);
         setTaskDescription(descriptionTask);
@@ -70,7 +70,7 @@ public class TaskOperation {
         return task.getDescription();
     }
 
-    public String getTaskTimeAlerts() {
+    public Date getTaskTimeAlerts() {
         return task.getTimeAlerts();
     }
 

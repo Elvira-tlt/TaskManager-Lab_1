@@ -6,7 +6,7 @@ import models.TaskModel;
 import views.TaskView;
 
 public class TaskManagerRalization {
-	private /*static*/ TaskModel model; //м.б. сделать static
+	private TaskModel model;
 	private static TaskView view;
 	private static TaskController controller;
 
@@ -32,7 +32,7 @@ public class TaskManagerRalization {
 
 	// возвращает models Task из базы данных, ...
 	private static Task retrieveTaskFromDatabase() {
-		// ToDo
+		//TODO
 
 		Task task = new Task(); // сделать не создание, а загрузку из файла(базы
 								// данных)

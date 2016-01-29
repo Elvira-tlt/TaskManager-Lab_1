@@ -4,6 +4,9 @@ import models.Task;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,8 +27,7 @@ public class TableModelViewAllTasks implements TableModel {
             task.setDescription("" + i);
             task.setContactsPhone("" + i + i + 3 + i + 6 + 7);
             task.setContactsName("name#" + i);
-            task.setTimeAlerts("" + i + i+ ".1"  + i + "." + "2015" ); ///// ПОСМОТРЕТЬ
-
+            task.setTimeAlerts(new Date());
             tasks.add(task);
         }
 
@@ -78,14 +80,23 @@ public class TableModelViewAllTasks implements TableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Task task = tasks.get(rowIndex);
-
+        
         switch (columnIndex) {
             case 0:
                 return task.getName();
             case 1:
                 return task.getDescription();
             case 2:
-                return task.getTimeAlerts();
+            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+                ////////////////////
+                if (task.getTimeAlerts() == null ) {
+                    return " ";
+                }
+                /////
+
+            	return dateFormat.format(task.getTimeAlerts());
+         
             case 3:
             	String gettingContacts = getContacts(task.getContactsPhone(), task.getContactsName());
             	return gettingContacts;

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Task {
     private String name;
     private String description;
-    private String timeAlerts; // проверить формат, Прочитать про дату (время)
+    private Date timeAlerts; // проверить формат, Прочитать про дату (время)
     private String contactsPhone;
     private String contactsName;
 
@@ -25,11 +25,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getTimeAlerts() {
+    public  Date getTimeAlerts() {
         return timeAlerts;
     }
 
-    public void setTimeAlerts(String timeAlerts) {
+    public void setTimeAlerts(Date timeAlerts) {
         this.timeAlerts = timeAlerts;
     }
 
