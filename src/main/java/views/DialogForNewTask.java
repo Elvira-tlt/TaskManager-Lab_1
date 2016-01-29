@@ -1,5 +1,6 @@
 package views;
 
+import models.Task;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -20,58 +21,68 @@ public class DialogForNewTask extends JDialog {
 
     public JPanel labelAndFieldPanel;
 
-    private JTextField nameTaskField;
-    private JTextField descriptionTaskField;
+    private JTextField nameTaskField = new JTextField();
+    private JTextField descriptionTaskField = new JTextField();
+    private JTextField contactsPhoneField = new JTextField();
+    private JTextField contactsNameField = new JTextField();
     private JDatePickerImpl datePicker;
     private JSpinner spinner;
     private Date timeAlertsTaskValue;
-    private JTextField contactsPhoneField;
-    private JTextField contactsNameField;
 
+    private JLabel nameTaskLabel = new JLabel("Название/имя задачи *");
+    private JLabel descriptionTaskLabel = new JLabel("Описание");
+    private JLabel timeAlertsTaskLabel = new JLabel("Дата и время напоминания/выполнения *");
+    private JLabel contactsLabel = new JLabel("Контактная информация:");
+    private JLabel nullLabel = new JLabel();
+    private JLabel contactsPhoneLabel = new JLabel("          - контактный телефон");
+    private JLabel contactsNameLabel = new JLabel("           - контактное лицо");
+
+
+
+    Task taskForEditing;
 
     ////////
     private JSpinner.DateEditor dateEditor;
 
-   // private UtilDateModel modelImp;
     private JDatePanelImpl datePanel;
-    //
-    private DialogType dialogType;
+   // private DialogType dialogType;
 
-    public DialogForNewTask(DialogType dialogType) {
-        this.dialogType = dialogType;
+
+
+
+
+    public DialogForNewTask(Task taskForEditing) {
+        //this.dialogType = dialogType;
+        this.taskForEditing = taskForEditing;
     }
 
     public void createDialogForTask(TaskView taskView) {
         this.taskView = taskView;
 
-
         labelAndFieldPanel = new JPanel(new GridLayout(6, 2));
         labelAndFieldPanel.setBorder(new TitledBorder(" Заполните информацию о создаваемой вами задаче")); //ЗАПОЛНИТЬ???
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
-        // modelImp = new UtilDateModel();
-
-        //datePanel = new JDatePanelImpl(modelImp);
-
-        //Creating Label and Field for Container:
-        JLabel nameTaskLabel = new JLabel("Название/имя задачи *");
-
-
-        JLabel descriptionTaskLabel = new JLabel("Описание");
-        descriptionTaskField = new JTextField();
-
-        JLabel timeAlertsTaskLabel = new JLabel("Дата и время напоминания/выполнения *");
         JPanel panelForCalendar = new JPanel();
+
+
+        if (taskForEditing != null)  {
+            String nameTaskField = taskView.taskController.getTasknameTaskField(taskForEditing);
+            String descriptionTaskField = taskView.taskController.getDescriptionTaskField();
+            timeAlertsTaskValue = taskView.taskController.getTimeAlertsTaskField();
+            String contactsPhoneField = taskView.taskController.getContactsPhoneField();
+            String contactsNameField = taskView.taskController.getContactsNameField();
+
+            setTextForFieldDialog(nameTaskField, descriptionTaskField, contactsPhoneField, contactsNameField);
+
+            setTitle("Редактирование задачи: " + nameTaskField);
+
+        } else {
+           setTitle("Создание новой задачи");
+        }
+
         setSpinnerAndJDatePickerValue(panelForCalendar, timeAlertsTaskValue);
 
-        JLabel contactsLabel = new JLabel("Контактная информация:");
-        JLabel nullLabel = new JLabel();
-
-        JLabel contactsPhoneLabel = new JLabel("          - контактный телефон");
-        contactsPhoneField = new JTextField();
-
-        JLabel contactsNameLabel = new JLabel("           - контактное лицо");
-        contactsNameField = new JTextField();
 
         //Adding components:
         labelAndFieldPanel.add(nameTaskLabel);
@@ -116,33 +127,35 @@ public class DialogForNewTask extends JDialog {
     }
 
 
-    public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
-                                       /*JFormattedTextField timeAlertsTask,*/ JTextField contactsPhone,
+    /*public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
+                                       //JFormattedTextField timeAlertsTask,
+                                       JTextField contactsPhone,
                                        JTextField contactsName) {
         this.nameTaskField = nameTask;
         this.descriptionTaskField = descriptionTask;
         // this.timeAlertsTaskField = timeAlertsTask; м.б удалить (сделать автоматическое присвоение при ок)
         this.contactsPhoneField = contactsPhone;
         this.contactsNameField = contactsName;
-    }
+    }*/
 
     public void setTextForFieldDialog(String nameTask, String descriptionTask,
-                                      /*Date timeAlertsTask, */String contactsPhone,
+                                      String contactsPhone,
                                       String contactsName) {
         this.nameTaskField.setText(nameTask);
         this.descriptionTaskField.setText(descriptionTask);
-        // setTimeAlertsTaskValue(timeAlertsTask); //// ПРОВЕРИТЬ НА РАБОТУ
         this.contactsPhoneField.setText(contactsPhone);
         this.contactsNameField.setText(contactsName);
     }
 
-    public void setTimeAlertsTaskValue(Date dateValue) {
+  /*  public void setTimeAlertsTaskValue(Date dateValue) {
         timeAlertsTaskValue = dateValue;
-    }
+    }*/
+
+
 
 
     //метод, отображающий значение даты для редактирования:
-    private void setSpinnerAndJDatePickerValue(JPanel panel, Date dateValue) {
+    private void  setSpinnerAndJDatePickerValue(JPanel panel, Date dateValue) {
 
         UtilDateModel modelImp= new UtilDateModel();
         datePanel = new JDatePanelImpl(modelImp, new Properties());
@@ -194,54 +207,7 @@ public class DialogForNewTask extends JDialog {
 
 
             Boolean nameDontHaveTextsInField = taskName.isEmpty();
-            Boolean timeAlertsDontHaveValue = taskTimeAlerts == null;
-
-            if ((nameDontHaveTextsInField) || (timeAlertsDontHaveValue)) {
-                // содание информационного окна
-                InformationDialog informationDialog = new InformationDialog();
-                informationDialog.setTextInformationLabel("Поля \"Name Task\" и \"Time Alerts's Task\""
-                        + "обязательно должны быть заполнены!");
-
-
-                // добавить звездочки в название полей
-
-            } else {
-                taskView.taskController.saveNewTask(taskName, taskDescription,
-                        taskTimeAlerts, taskContactsPhone,
-                        taskContactsName);
-                taskView.updateTable();
-
-                dispose();
-            }
-        }
-
-
-    };
-
-    private ActionListener readingDateValueForEditing = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent arg0) {
-
-            Calendar calendarValue = new GregorianCalendar();
-            datePicker.getModel().setSelected(true);
-            calendarValue.setTime((Date) datePicker.getModel().getValue());
-
-            Calendar timeValue = new GregorianCalendar();
-            timeValue.setTime((Date) spinner.getValue());
-
-            calendarValue.set(Calendar.HOUR_OF_DAY, timeValue.get(Calendar.HOUR_OF_DAY));
-            calendarValue.set(Calendar.MINUTE, timeValue.get(Calendar.MINUTE));
-
-
-            String taskName = getNameTask();
-            String taskDescription = getDescriptionTask();
-            Date taskTimeAlerts = calendarValue.getTime();
-            String taskContactsPhone = getContactsPhone();
-            String taskContactsName = getContactsName();
-
-
-            Boolean nameDontHaveTextsInField = taskName.isEmpty();
+          //  Boolean timeAlertsDontHaveValue = taskTimeAlerts == null;
 
             if ((nameDontHaveTextsInField)) {
                 // содание информационного окна
@@ -249,23 +215,19 @@ public class DialogForNewTask extends JDialog {
                 informationDialog.setTextInformationLabel("Полe \"Name Task\""
                         + "обязательно должно быть заполнено!");
 
-
                 // добавить звездочки в название полей
 
             } else {
-                taskView.taskController.saveNewTask(taskName, taskDescription,
-                        taskTimeAlerts, taskContactsPhone,
-                        taskContactsName);
 
-
-                //////////////
-                taskController.setFieldsTaskFromModel(countSelectedRows, taskName,
-                        taskDescription, taskTimeAlerts, taskContactsPhone,
-                        taskContactsName);
-
-                ////
-
-
+                if (taskForEditing == null) {
+                    taskView.taskController.saveNewTask(taskName, taskDescription,
+                            taskTimeAlerts, taskContactsPhone,
+                            taskContactsName);
+                } else {
+                    taskView.taskController.setValueTaskFromModel(taskForEditing, taskName,
+                            taskDescription, taskTimeAlerts, taskContactsPhone,
+                            taskContactsName);
+                }
 
 
 
@@ -287,7 +249,7 @@ public class DialogForNewTask extends JDialog {
             String taskContactsPhone = dialogForEditingTask.getContactsPhone();
             String taskContactsName = dialogForEditingTask.getContactsName();
 
-            taskController.setFieldsTaskFromModel(countSelectedRows, taskName,
+            taskController.setValueTaskFromModel(countSelectedRows, taskName,
                     taskDescription, taskTimeAlerts, taskContactsPhone,
                     taskContactsName);
 
@@ -359,9 +321,9 @@ public class DialogForNewTask extends JDialog {
 
 
     ////// Потом убрать
-    public static void main(String[] args) {
-        new DialogForNewTask(DialogType.FOR_CREATING);
-    }
+  /*  public static void main(String[] args) {
+        new DialogForNewTask(new Task());
+    }*/
     //////////
 
 

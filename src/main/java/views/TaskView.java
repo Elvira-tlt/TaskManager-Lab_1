@@ -16,7 +16,6 @@ import controllers.TaskController;
 
 public class TaskView {
     TaskController taskController;
-    DialogForNewTask dialogCreatingTask;
     TableModelViewAllTasks tableModelViewAllTasks;
     InformationDialog informationDialog;
 
@@ -134,7 +133,7 @@ public class TaskView {
 
 
     private void createDialogForNewTask() {
-        DialogForNewTask dialogCreatingTask = new DialogForNewTask(DialogType.FOR_CREATING);
+        DialogForNewTask dialogCreatingTask = new DialogForNewTask(null);
         dialogCreatingTask.createDialogForTask(this);
         dialogCreatingTask.setTitle("Создание новой задачи");
 
@@ -150,49 +149,18 @@ public class TaskView {
 
         Task taskForEditing = taskController.getAllTasksModel().get(countSelectedRows);
 
-        String nameTaskField = taskController.getTasknameTaskField(taskForEditing);
-        String descriptionTaskField = taskController.getDescriptionTaskField();
-        Date timeAlertsTaskField = taskController.getTimeAlertsTaskField();
-        String contactsPhoneField = taskController.getContactsPhoneField();
-        String contactsNameField = taskController.getContactsNameField();
+        final DialogForNewTask dialogForEditingTask = new DialogForNewTask(taskForEditing);
 
-        final DialogForNewTask dialogForEditingTask = new DialogForNewTask(DialogType.FOR_EDITING);
-        dialogForEditingTask.setTimeAlertsTaskValue(timeAlertsTaskField);
         dialogForEditingTask.createDialogForTask(this);
 
-        dialogForEditingTask.setTitle("Редактирование задачи: " + nameTaskField);
+       // dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
 
-
-
-
-        dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
-
-        dialogForEditingTask.setTextForFieldDialog(nameTaskField, descriptionTaskField,
-                /*timeAlertsTaskField, */contactsPhoneField, contactsNameField);
 
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
         dialogForEditingTask.add(new BorderLayout().SOUTH, buttonsPanel);
 
 
-        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(),/* new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent arg0) {
-                        String taskName = dialogForEditingTask.getNameTask();
-                        String taskDescription = dialogForEditingTask.getDescriptionTask();
-                        Date taskTimeAlerts = dialogForEditingTask.getTimeAlertsTask();
-                        String taskContactsPhone = dialogForEditingTask.getContactsPhone();
-                        String taskContactsName = dialogForEditingTask.getContactsName();
-
-                        taskController.setFieldsTaskFromModel(countSelectedRows, taskName,
-                                taskDescription, taskTimeAlerts, taskContactsPhone,
-                                taskContactsName);
-
-                        updateTable();
-                        dialogForEditingTask.dispose();
-
-                    }
-                }*/
-        );
+        buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), dialogForEditingTask.getReadingDateValueForCreating());
 
 
         buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), new ActionListener() {

@@ -37,13 +37,21 @@ public class TaskController {
     	model.deleteTaskFromModel(numberTaskInListTasks);
     	
     }
-    
-    public void setFieldsTaskFromModel(int countSelectedRows,String nameTask, String descriptionTask, Date timeAlertsTask,
-            String contactsPhone, String contactsName) {
+
+    //переделала на принятие Task
+    /*public void setValueTaskFromModel(int countSelectedRows, String nameTask, String descriptionTask, Date timeAlertsTask,
+                                      String contactsPhone, String contactsName) {
     	taskOperation.setTask(model.getTaskModel().get(countSelectedRows)); 
     	
     	taskOperation.setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
-}
+}*/
+
+    public void setValueTaskFromModel(Task task, String nameTask, String descriptionTask, Date timeAlertsTask,
+                                      String contactsPhone, String contactsName) {
+        taskOperation.setTask(task);
+
+        taskOperation.setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
+    }
 
     //for editing task's datas:
    
