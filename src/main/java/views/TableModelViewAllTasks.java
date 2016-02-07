@@ -79,11 +79,9 @@ public class TableModelViewAllTasks implements TableModel {
             case 2:
             	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-                ////////////////////
                 if (task.getTimeAlerts() == null ) {
                     return " ";
                 }
-                /////
 
             	return dateFormat.format(task.getTimeAlerts());
          

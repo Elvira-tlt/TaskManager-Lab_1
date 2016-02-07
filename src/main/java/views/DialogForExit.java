@@ -45,6 +45,7 @@ public class DialogForExit extends JDialog {
         dialogExitFromCreatingTask.setLayout(new FlowLayout());
         dialogExitFromCreatingTask.setSize(600,120);
         dialogExitFromCreatingTask.setVisible(true);
+		dialogExitFromCreatingTask.setLocationRelativeTo(null);
 	}
    
 

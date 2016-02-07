@@ -20,20 +20,14 @@ import org.jdom2.input.*;
 
 public class Database {
 	private static final String FILENAME = "Tasks.xml";
-	private File xmlFile;
 	private Document document;
 	private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	private FileOutputStream fileOutputStream;
 	private List<Task> allTasks = new ArrayList<Task>();
 
-	public Database (List<Task> allTasks) {
-		this.allTasks = allTasks;
-		xmlFile = new File(FILENAME);
-	}
-	
-	public void loadingTasksFromFile() {
+	public List<Task> loadingTasksFromFile() {
 		SAXBuilder saxBuilder = new SAXBuilder();
-
+		File xmlFile = new File(FILENAME);
 		if (xmlFile.exists()){
 			try {
 				document = saxBuilder.build(xmlFile);
@@ -64,17 +58,19 @@ public class Database {
 				e.printStackTrace();
 			}
 		}
+		return allTasks;
 	}
 	
-	public void savingTasksToFile () {
+	public void savingTasksToFile (List<Task> tasksForSaving) {
+		File xmlFile = new File(FILENAME);
         Element tasksModel = new Element("tasksModel");
         document = new Document(tasksModel);
         XMLOutputter xmlOutputter = new XMLOutputter();
     	xmlOutputter.setFormat(Format.getPrettyFormat());
 
-		synchronized (allTasks) {
-			if (!allTasks.isEmpty()) {
-				for (Task task : allTasks) {
+		synchronized (tasksForSaving) {
+			if (!tasksForSaving.isEmpty()) {
+				for (Task task : tasksForSaving) {
 					Element taskElement = new Element("task");
 					taskElement.addContent(new Element("name").setText(task.getName()));
 					taskElement.addContent(new Element("description").setText(task.getDescription()));

@@ -44,7 +44,6 @@ public class DialogForNewTask extends JDialog {
     private JDatePanelImpl datePanel;
 
     public DialogForNewTask(Task taskForEditing) {
-        //this.dialogType = dialogType;
         this.taskForEditing = taskForEditing;
     }
 
@@ -89,9 +88,10 @@ public class DialogForNewTask extends JDialog {
         labelAndFieldPanel.add(contactsNameField);
 
         this.setName("Create new task");
-        this.setSize(550, 400);
+        this.setSize(600, 450);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 
     public String getNameTask() {
@@ -139,7 +139,6 @@ public class DialogForNewTask extends JDialog {
             UtilDateModel dataModel = (UtilDateModel) datePicker.getModel();
             dataModel.setValue(dateValue);
         }
-
         panel.add(datePicker);
         panel.add(spinner);
     }
@@ -216,7 +215,6 @@ public class DialogForNewTask extends JDialog {
             String taskContactsPhone = getContactsPhone();
             String taskContactsName = getContactsName();
 
-            // переделать взаимодействие через массив!!!!!!!!!!
             String[] textFields = new String[]{
                     taskName,
                     taskDescription,
@@ -244,14 +242,4 @@ public class DialogForNewTask extends JDialog {
     public ActionListener getCancelSaveValueFieldDialog () {
         return cancelSaveValueFieldDialog;
     }
-
-
-
-    ////// Потом убрать
-  /*  public static void main(String[] args) {
-        new DialogForNewTask(new Task());
-    }*/
-    //////////
-
-
 }

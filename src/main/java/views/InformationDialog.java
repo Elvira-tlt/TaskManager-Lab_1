@@ -30,6 +30,7 @@ public class InformationDialog extends JDialog {
         setLayout(new FlowLayout());
         setSize(500,100);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     public void setTextInformationLabel(String textInformation) {

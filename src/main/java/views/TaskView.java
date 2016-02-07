@@ -18,11 +18,6 @@ public class TaskView {
     TaskController taskController;
     TableModelViewAllTasks tableModelViewAllTasks;
     InformationDialog informationDialog;
-    Database tasksPersistence;
-
-    public TaskView(Database tasksPersistence) {
-        this.tasksPersistence = tasksPersistence;
-    }
 
     public void setTaskController(TaskController taskController) {
         this.taskController = taskController;
@@ -100,30 +95,19 @@ public class TaskView {
 
         tableViewAllTasks.setRowHeight(40);
 
-        //ДОДЕЛАТЬ ФОРМАТИРОВАНИЕ РАЗМЕРА КОЛОНОК:
-       /* tableViewAllTasks.getTableHeader().setResizingAllowed(false);
         tableViewAllTasks.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        tableViewAllTasks.getColumnModel().getColumn(0).setPreferredWidth(190);
-        //tableViewAllTasks.getColumnModel().getColumn(2).setMinWidth(90);
-        tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(200);
-        // tableViewAllTasks.getColumnModel().getColumn(2).setPreferredWidth(10);
-*/
-
-        //ДОБАВИТЬ ПЕРЕНОС ДАННЫХ В ЯЧЕЙКЕ НА ДРУГУЮ СТРОКУ:
-        //.................
+        tableViewAllTasks.getColumnModel().getColumn(0).setPreferredWidth(85);
+        tableViewAllTasks.getColumnModel().getColumn(2).setMinWidth(85);
+        tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(140);
 
 
-        //panelButtons.setBorder(new TitledBorder(""));
-
-        //panelButtons.setSize(10,40);
-
-        // panelButtons.setLayout(new BorderLayout().EAST);
         mainWindow.setLayout(new FlowLayout());
         mainWindow.add(new BorderLayout().WEST, panelViewAllTasks);
         mainWindow.add(new BorderLayout().EAST, panelButtons);
         mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainWindow.setSize(750, 500);
         mainWindow.setVisible(true);
+        mainWindow.setLocationRelativeTo(null);
     }
 
     private void createDialogForNewTask() {
@@ -170,13 +154,10 @@ public class TaskView {
 
     WindowListener closingProgram = new java.awt.event.WindowAdapter() {
         public void windowClosing(java.awt.event.WindowEvent evt) {
-            tasksPersistence.savingTasksToFile();
+            new Database().savingTasksToFile(taskController.getAllTasksModel());
             //System.exit(1);
         }
     };
-
-
-
 }
 
 

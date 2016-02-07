@@ -48,14 +48,13 @@ public class TaskOperation {
                                String contactsPhone, String contactsName) {
         setTaskName(nameTask);
         setTaskDescription(descriptionTask);
-        setTaskTimeAlerts(timeAlertsTask); //Преобразовать в Дату
+        setTaskTimeAlerts(timeAlertsTask);
         setTaskContactsPhone(contactsPhone);
         setTaskContactsName(contactsName);
         
     }
     
     public Task getTaskForSave () {
-    	//сохранение задачи через контроллер в модель
     	return task;
     }
     

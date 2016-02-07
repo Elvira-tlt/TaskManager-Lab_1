@@ -14,24 +14,21 @@ public class TaskManager {
 	private Database tasksPersistence;
 
 	public static void main(String[] args) {
-		TaskManager taskManager = new TaskManager();
-		taskManager.startingTaskManager();
+		new TaskManager().startingTaskManager();
 	}
 	
 	public TaskManager() {
-		model = new TaskModel();
 
-		tasksPersistence = new Database(model.getTaskModel());
-
-		view = new TaskView(tasksPersistence);
-
-		controller = new TaskController(model, view);
-        view.setTaskController(controller);
 	}
-	
+
 	private void startingTaskManager() {
+		tasksPersistence = new Database();
+		model = new TaskModel();
+		model.setTasksToModel(tasksPersistence.loadingTasksFromFile());
+		view = new TaskView();
+		controller = new TaskController(model, view);
+		view.setTaskController(controller);
 		view.createMainWindow();
-		tasksPersistence.loadingTasksFromFile();
 		startThreadForNotification();
 	}
 

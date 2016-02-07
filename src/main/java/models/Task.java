@@ -5,7 +5,7 @@ import java.util.Date;
 public class Task {
     private String name;
     private String description;
-    private Date timeAlerts; // проверить формат, Прочитать про дату (время)
+    private Date timeAlerts;
     private String contactsPhone;
     private String contactsName;
 
