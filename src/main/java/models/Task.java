@@ -37,24 +37,7 @@ public class Task {
         return contactsPhone;
     }
 
-    /*public void setContacts(String contactsPhone, String contactsName) {
-        String contactsData;
 
-        boolean isNotContactPhone = ((contactsPhone==null) || contactsPhone.isEmpty());
-        boolean isNotContactName = ((contactsName==null) || contactsName.isEmpty());
-
-        if (!isNotContactPhone && !isNotContactName) {
-            contactsData = "phone: " + contactsPhone + "\n contacts name: " + contactsName;
-        } else if (!isNotContactPhone && isNotContactName) {
-            contactsData = "phone: " + contactsPhone;
-        } else if (isNotContactPhone && !isNotContactName) {
-            contactsData = "contacts name: " + contactsName;
-        } else {
-            contactsData = " ";
-        }
-    	this.contacts = contactsData;
-    }*/
-    
     public void setContactsPhone(String contactsPhone) {
         this.contactsPhone = contactsPhone;
     }

@@ -37,19 +37,11 @@ public class DialogForNewTask extends JDialog {
     private JLabel contactsPhoneLabel = new JLabel("          - контактный телефон");
     private JLabel contactsNameLabel = new JLabel("           - контактное лицо");
 
-
-
     Task taskForEditing;
 
-    ////////
     private JSpinner.DateEditor dateEditor;
 
     private JDatePanelImpl datePanel;
-   // private DialogType dialogType;
-
-
-
-
 
     public DialogForNewTask(Task taskForEditing) {
         //this.dialogType = dialogType;
@@ -64,7 +56,6 @@ public class DialogForNewTask extends JDialog {
         this.add(new BorderLayout().CENTER, labelAndFieldPanel);
 
         JPanel panelForCalendar = new JPanel();
-
 
         if (taskForEditing != null)  {
             String nameTaskField = taskView.taskController.getTasknameTaskField(taskForEditing);
@@ -83,7 +74,6 @@ public class DialogForNewTask extends JDialog {
 
         setSpinnerAndJDatePickerValue(panelForCalendar, timeAlertsTaskValue);
 
-
         //Adding components:
         labelAndFieldPanel.add(nameTaskLabel);
         labelAndFieldPanel.add(nameTaskField);
@@ -98,13 +88,11 @@ public class DialogForNewTask extends JDialog {
         labelAndFieldPanel.add(contactsNameLabel);
         labelAndFieldPanel.add(contactsNameField);
 
-
         this.setName("Create new task");
         this.setSize(550, 400);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-
 
     public String getNameTask() {
         return nameTaskField.getText();
@@ -126,18 +114,6 @@ public class DialogForNewTask extends JDialog {
         return contactsNameField.getText();
     }
 
-
-    /*public void setTextFieldDialogView(JTextField nameTask, JTextField descriptionTask,
-                                       //JFormattedTextField timeAlertsTask,
-                                       JTextField contactsPhone,
-                                       JTextField contactsName) {
-        this.nameTaskField = nameTask;
-        this.descriptionTaskField = descriptionTask;
-        // this.timeAlertsTaskField = timeAlertsTask; м.б удалить (сделать автоматическое присвоение при ок)
-        this.contactsPhoneField = contactsPhone;
-        this.contactsNameField = contactsName;
-    }*/
-
     public void setTextForFieldDialog(String nameTask, String descriptionTask,
                                       String contactsPhone,
                                       String contactsName) {
@@ -146,13 +122,6 @@ public class DialogForNewTask extends JDialog {
         this.contactsPhoneField.setText(contactsPhone);
         this.contactsNameField.setText(contactsName);
     }
-
-  /*  public void setTimeAlertsTaskValue(Date dateValue) {
-        timeAlertsTaskValue = dateValue;
-    }*/
-
-
-
 
     //метод, отображающий значение даты для редактирования:
     private void  setSpinnerAndJDatePickerValue(JPanel panel, Date dateValue) {
@@ -173,7 +142,6 @@ public class DialogForNewTask extends JDialog {
 
         panel.add(datePicker);
         panel.add(spinner);
-
     }
 
     private ActionListener readingDateValueForCreating = new ActionListener() {
@@ -181,42 +149,41 @@ public class DialogForNewTask extends JDialog {
         @Override
         public void actionPerformed(ActionEvent arg0) {
 
-            ///потом удалить:
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-            DateFormat taskDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-            //
-
             Calendar calendarValue = new GregorianCalendar();
             datePicker.getModel().setSelected(true);
             calendarValue.setTime((Date) datePicker.getModel().getValue());
-           // datePicker.getModel().setMonth(calendarValue.get(Calendar.MONTH));
 
             Calendar timeValue = new GregorianCalendar();
             timeValue.setTime((Date) spinner.getValue());
 
             calendarValue.set(Calendar.HOUR_OF_DAY, timeValue.get(Calendar.HOUR_OF_DAY));
             calendarValue.set(Calendar.MINUTE, timeValue.get(Calendar.MINUTE));
-
-
+            
             String taskName = getNameTask();
             String taskDescription = getDescriptionTask();
             Date taskTimeAlerts = calendarValue.getTime();
             String taskContactsPhone = getContactsPhone();
             String taskContactsName = getContactsName();
 
-
             Boolean nameDontHaveTextsInField = taskName.isEmpty();
-          //  Boolean timeAlertsDontHaveValue = taskTimeAlerts == null;
+            Date currentValueDate = new Date();
+            Boolean timeAlertsBeforeCurrentValue = taskTimeAlerts.before(currentValueDate);
 
-            if ((nameDontHaveTextsInField)) {
-                // содание информационного окна
+            if ((nameDontHaveTextsInField) && timeAlertsBeforeCurrentValue) {
+                    InformationDialog informationDialog = new InformationDialog();
+                    informationDialog.setTextInformationLabel("<html> <br> Полe \"Name Task\""
+                            + "обязательно должно быть заполнено! <br>"+ "\n Значение \"Time Alert's\""
+                            + "должно быть позже текущего времени!<br></html>");
+            } else if(timeAlertsBeforeCurrentValue) {
+                InformationDialog informationDialog = new InformationDialog();
+                informationDialog.setTextInformationLabel("Значение \"Time Alert's\""
+                        + "должно быть позже текущего времени!");
+            } else if (nameDontHaveTextsInField) {
                 InformationDialog informationDialog = new InformationDialog();
                 informationDialog.setTextInformationLabel("Полe \"Name Task\""
                         + "обязательно должно быть заполнено!");
 
-                // добавить звездочки в название полей
-
+            //save task's datas:
             } else {
 
                 if (taskForEditing == null) {
@@ -228,45 +195,16 @@ public class DialogForNewTask extends JDialog {
                             taskDescription, taskTimeAlerts, taskContactsPhone,
                             taskContactsName);
                 }
-
-
-
                 taskView.updateTable();
-
                 dispose();
             }
         }
-
-
     };
-
-   /* new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent arg0) {
-            String taskName = dialogForEditingTask.getNameTask();
-            String taskDescription = dialogForEditingTask.getDescriptionTask();
-            Date taskTimeAlerts = dialogForEditingTask.getTimeAlertsTask();
-            String taskContactsPhone = dialogForEditingTask.getContactsPhone();
-            String taskContactsName = dialogForEditingTask.getContactsName();
-
-            taskController.setValueTaskFromModel(countSelectedRows, taskName,
-                    taskDescription, taskTimeAlerts, taskContactsPhone,
-                    taskContactsName);
-
-            updateTable();
-            dialogForEditingTask.dispose();
-
-        }
-    }*/
-
 
 
     public ActionListener getReadingDateValueForCreating() {
         return readingDateValueForCreating;
     }
-
-
-
 
     private ActionListener cancelSaveValueFieldDialog = new ActionListener() {
         @Override
@@ -282,13 +220,9 @@ public class DialogForNewTask extends JDialog {
             String[] textFields = new String[]{
                     taskName,
                     taskDescription,
-                    //taskTimeAlerts,
                     taskContactsPhone,
                     taskContactsName};
 
-            //  Boolean fieldDontHaveTexts = taskName.isEmpty() || taskName == null;
-
-            //while (fieldDontHaveTexts==true) {
             for (int i = 0; i < textFields.length; i++) {
                 if (textFields[i].isEmpty()) {
                     if (i == textFields.length - 1) {
@@ -310,13 +244,6 @@ public class DialogForNewTask extends JDialog {
     public ActionListener getCancelSaveValueFieldDialog () {
         return cancelSaveValueFieldDialog;
     }
-
-
-
-
-
-
-
 
 
 

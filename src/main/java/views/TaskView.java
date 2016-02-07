@@ -3,21 +3,26 @@ package views;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.*;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import models.Task;
 import controllers.TaskController;
-//import org.jdatepicker.AbstractDateModel;
+import savingAndLoadingTasks.Database;
 
 public class TaskView {
     TaskController taskController;
     TableModelViewAllTasks tableModelViewAllTasks;
     InformationDialog informationDialog;
+    Database tasksPersistence;
+
+    public TaskView(Database tasksPersistence) {
+        this.tasksPersistence = tasksPersistence;
+    }
 
     public void setTaskController(TaskController taskController) {
         this.taskController = taskController;
@@ -25,7 +30,9 @@ public class TaskView {
 
 
     public void createMainWindow() {
-        JFrame frame = new JFrame("Task Manager");
+        JFrame mainWindow = new JFrame("Task Manager");
+        mainWindow.addWindowListener(closingProgram);
+
         JButton createTaskButton = new JButton("Create Task / Создать задачу");
         JButton editTasksButton = new JButton("Edit Tasks/ Редактирование задач");
         JButton deleteTaskButton = new JButton("Delete task / Удалить задачу");
@@ -64,8 +71,6 @@ public class TaskView {
                     informationDialog = new InformationDialog();
                     informationDialog.setTextInformationLabel("Выберите задачу для редактирования");
                 }
-
-
             }
         });
 
@@ -83,10 +88,8 @@ public class TaskView {
                     informationDialog = new InformationDialog();
                     informationDialog.setTextInformationLabel("Выберите задачу для удаления");
                 }
-
             }
         });
-
 
         panelButtons.setLayout(new GridLayout(8, 1));
         panelButtons.add(createTaskButton);
@@ -94,14 +97,6 @@ public class TaskView {
         panelButtons.add(editTasksButton);
         panelButtons.add(new JLabel(" "));
         panelButtons.add(deleteTaskButton);
-
-
-
-
-
-
-
-
 
         tableViewAllTasks.setRowHeight(40);
 
@@ -123,14 +118,13 @@ public class TaskView {
         //panelButtons.setSize(10,40);
 
         // panelButtons.setLayout(new BorderLayout().EAST);
-        frame.setLayout(new FlowLayout());
-        frame.add(new BorderLayout().WEST, panelViewAllTasks);
-        frame.add(new BorderLayout().EAST, panelButtons);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(750, 500);
-        frame.setVisible(true);
+        mainWindow.setLayout(new FlowLayout());
+        mainWindow.add(new BorderLayout().WEST, panelViewAllTasks);
+        mainWindow.add(new BorderLayout().EAST, panelButtons);
+        mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainWindow.setSize(750, 500);
+        mainWindow.setVisible(true);
     }
-
 
     private void createDialogForNewTask() {
         DialogForNewTask dialogCreatingTask = new DialogForNewTask(null);
@@ -144,7 +138,6 @@ public class TaskView {
         buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), dialogCreatingTask.getCancelSaveValueFieldDialog() );
     }
 
-
     private void creatingDialogForEditingTask(final int countSelectedRows) {
 
         Task taskForEditing = taskController.getAllTasksModel().get(countSelectedRows);
@@ -153,29 +146,19 @@ public class TaskView {
 
         dialogForEditingTask.createDialogForTask(this);
 
-       // dialogForEditingTask.labelAndFieldPanel.setBorder(new TitledBorder(" "));
-
-
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
         dialogForEditingTask.add(new BorderLayout().SOUTH, buttonsPanel);
 
-
         buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), dialogForEditingTask.getReadingDateValueForCreating());
-
 
         buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 dialogForEditingTask.dispose();
-
             }
         });
     }
         
-   /* private void createDialogExit(JDialog dialogWindow) {
-        new DialogForExit().exitingFromOtherDialog(dialogWindow);
-    }*/
-
     public void updateTable() {
         Set<TableModelListener> listenersTableModel = tableModelViewAllTasks.getListeners();
         Iterator<TableModelListener> listenersIterator = listenersTableModel.iterator();
@@ -185,55 +168,14 @@ public class TaskView {
         }
     }
 
-
-
-  /* private ActionListener checkDoAllFieldIsEmpty = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String taskName = dialogCreatingTask.getNameTask();
-            String taskDescription = dialogCreatingTask.getDescriptionTask();
-            Date taskTimeAlerts = dialogCreatingTask.getTimeAlertsTask();
-            String taskContactsPhone = dialogCreatingTask.getContactsPhone();
-            String taskContactsName = dialogCreatingTask.getContactsName();
-
-            // переделать взаимодействие через массив!!!!!!!!!!
-            String[] textFields = new String[]{
-                    taskName,
-                    taskDescription,
-                    //taskTimeAlerts,
-                    taskContactsPhone,
-                    taskContactsName};
-
-            Boolean fieldDontHaveTexts = taskName.isEmpty() || taskName == null;
-
-            while (fieldDontHaveTexts) {
-                for (int i=0; i<textFields.length; i++) {
-                    if (textFields[i].isEmpty()  ){
-                        if (i== textFields.length-1) {
-                            //!!!!!!!!!!!!!!!!!!!!!
-                            // fieldDontHaveTexts = true;
-                            System.out.println("поля пустые");
-                            dialogCreatingTask.dispose();
-                        }
-
-                    } else {
-                        fieldDontHaveTexts = false;
-                    }
-                }
-
-                // добавить звездочки в название полей
-
-            }
-            if (fieldDontHaveTexts == false){
-
-                dialogCreatingTask.dispose();
-            }
-
-
-
+    WindowListener closingProgram = new java.awt.event.WindowAdapter() {
+        public void windowClosing(java.awt.event.WindowEvent evt) {
+            tasksPersistence.savingTasksToFile();
+            //System.exit(1);
         }
-    };*/
+    };
+
+
 
 }
 

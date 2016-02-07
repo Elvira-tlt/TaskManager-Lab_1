@@ -20,16 +20,6 @@ public class TableModelViewAllTasks implements TableModel {
     TableModelViewAllTasks(List<Task> tasks) {
         super();
         this.tasks = tasks;
-        //Для проверки, потом убрать:
-        for (int i=0; i<4; i++) {
-            Task task = new Task();
-            task.setName("Task#" + i);
-            task.setDescription("" + i);
-            task.setContactsPhone("" + i + i + 3 + i + 6 + 7);
-            task.setContactsName("name#" + i);
-            task.setTimeAlerts(new Date());
-            tasks.add(task);
-        }
 
     }
     public Set<TableModelListener> getListeners() {
