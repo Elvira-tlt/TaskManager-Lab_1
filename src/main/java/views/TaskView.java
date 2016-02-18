@@ -42,10 +42,8 @@ public class TaskView {
         tableModelViewAllTasks = new TableModelViewAllTasks(taskController.getAllTasksModel());
         final JTable tableViewAllTasks = new JTable(tableModelViewAllTasks);
 
-        //frame.add(new BorderLayout().NORTH,new JLabel("Созданные задачи"));
         panelViewAllTasks.add(tableViewAllTasks);
         panelViewAllTasks.add(new JScrollPane(tableViewAllTasks));
-
 
         createTaskButton.addActionListener(new ActionListener() {
             @Override
@@ -68,7 +66,6 @@ public class TaskView {
                 }
             }
         });
-
 
         deleteTaskButton.addActionListener(new ActionListener() {
             @Override
@@ -100,10 +97,9 @@ public class TaskView {
         tableViewAllTasks.getColumnModel().getColumn(2).setMinWidth(85);
         tableViewAllTasks.getColumnModel().getColumn(1).setPreferredWidth(140);
 
-
         mainWindow.setLayout(new FlowLayout());
-        mainWindow.add(new BorderLayout().WEST, panelViewAllTasks);
-        mainWindow.add(new BorderLayout().EAST, panelButtons);
+        mainWindow.add(BorderLayout.WEST, panelViewAllTasks);
+        mainWindow.add(BorderLayout.EAST, panelButtons);
         mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainWindow.setSize(750, 500);
         mainWindow.setVisible(true);
@@ -116,14 +112,13 @@ public class TaskView {
         dialogCreatingTask.setTitle("Создание новой задачи");
 
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
-        dialogCreatingTask.add(new BorderLayout().SOUTH, buttonsPanel);
+        dialogCreatingTask.add(BorderLayout.SOUTH, buttonsPanel);
 
         buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), dialogCreatingTask.getReadingDateValueForCreating());
         buttonsPanel.setListenerTo(buttonsPanel.getButtonCancel(), dialogCreatingTask.getCancelSaveValueFieldDialog() );
     }
 
     private void creatingDialogForEditingTask(final int countSelectedRows) {
-
         Task taskForEditing = taskController.getAllTasksModel().get(countSelectedRows);
 
         final DialogForNewTask dialogForEditingTask = new DialogForNewTask(taskForEditing);
@@ -131,7 +126,7 @@ public class TaskView {
         dialogForEditingTask.createDialogForTask(this);
 
         ButtonsPanelForDialog buttonsPanel = new ButtonsPanelForDialog();
-        dialogForEditingTask.add(new BorderLayout().SOUTH, buttonsPanel);
+        dialogForEditingTask.add(BorderLayout.SOUTH, buttonsPanel);
 
         buttonsPanel.setListenerTo(buttonsPanel.getButtonOk(), dialogForEditingTask.getReadingDateValueForCreating());
 
@@ -155,7 +150,6 @@ public class TaskView {
     WindowListener closingProgram = new java.awt.event.WindowAdapter() {
         public void windowClosing(java.awt.event.WindowEvent evt) {
             new Database().savingTasksToFile(taskController.getAllTasksModel());
-            //System.exit(1);
         }
     };
 }

@@ -10,13 +10,11 @@ import java.util.List;
 public class TaskController {
 	
     private TaskModel model;
-    private TaskView view;
     private TaskOperation taskOperation;
     
-    public TaskController(TaskModel taskModel, TaskView taskView) {
+    public TaskController(TaskModel taskModel) {
     	this.model = taskModel;
-        this.view = taskView;
-        taskOperation = new TaskOperation(this);
+        taskOperation = new TaskOperation();
     }
     
     public List<Task> getAllTasksModel() {

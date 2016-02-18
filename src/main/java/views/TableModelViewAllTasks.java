@@ -4,11 +4,7 @@ import models.Task;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,10 +75,6 @@ public class TableModelViewAllTasks implements TableModel {
             case 2:
             	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-                if (task.getTimeAlerts() == null ) {
-                    return " ";
-                }
-
             	return dateFormat.format(task.getTimeAlerts());
          
             case 3:
@@ -119,6 +111,4 @@ public class TableModelViewAllTasks implements TableModel {
         }
     	return contactsData;
     }
-
-
 }

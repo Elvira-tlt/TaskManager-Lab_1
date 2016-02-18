@@ -12,14 +12,12 @@ import java.util.concurrent.TimeUnit;
 import views.TaskView;
 
 public class TaskNotification implements Runnable {
-    public static boolean TASK_MANAGER_WORKING;
     private List<Task> tasksForNotificationQueue = new ArrayList<>();
     private TaskModel taskModel;
     private TaskView taskView;
     private NotificationWindow notificationWindow;
 
     public TaskNotification(TaskModel model, TaskView view) {
-        TASK_MANAGER_WORKING = true;
         taskModel = model;
         taskView = view;
     }
@@ -33,8 +31,7 @@ public class TaskNotification implements Runnable {
     public void run() {
         try {
             while (true) {
-                synchronized (tasksForNotificationQueue) {
-                    tasksForNotificationQueue = taskModel.getTaskModel();
+                tasksForNotificationQueue = taskModel.getTaskModel();
 
                     Date currentValueDate = new Date();
 
@@ -47,8 +44,6 @@ public class TaskNotification implements Runnable {
                             notificationWindow = new NotificationWindow(taskForNotification);
                             setModelAndViewForFrame(notificationWindow);
                         }
-                    }
-
                 }
                 TimeUnit.SECONDS.sleep(20);
 

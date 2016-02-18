@@ -11,8 +11,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -52,7 +51,7 @@ public class DialogForNewTask extends JDialog {
 
         labelAndFieldPanel = new JPanel(new GridLayout(6, 2));
         labelAndFieldPanel.setBorder(new TitledBorder(" Заполните информацию о создаваемой вами задаче")); //ЗАПОЛНИТЬ???
-        this.add(new BorderLayout().CENTER, labelAndFieldPanel);
+        this.add(BorderLayout.CENTER, labelAndFieldPanel);
 
         JPanel panelForCalendar = new JPanel();
 
@@ -103,7 +102,7 @@ public class DialogForNewTask extends JDialog {
     }
 
     public Date getTimeAlertsTask() {
-        return timeAlertsTaskValue;
+        return new Date(timeAlertsTaskValue.getTime());
     }
 
     public String getContactsPhone() {
@@ -138,13 +137,13 @@ public class DialogForNewTask extends JDialog {
         if(dateValue != null) {
             UtilDateModel dataModel = (UtilDateModel) datePicker.getModel();
             dataModel.setValue(dateValue);
+            spinner.setValue(dateValue);
         }
         panel.add(datePicker);
         panel.add(spinner);
     }
 
-    private ActionListener readingDateValueForCreating = new ActionListener() {
-
+    private class ReadingDateValueForCreatingListener implements Serializable, ActionListener{
         @Override
         public void actionPerformed(ActionEvent arg0) {
 
@@ -157,7 +156,7 @@ public class DialogForNewTask extends JDialog {
 
             calendarValue.set(Calendar.HOUR_OF_DAY, timeValue.get(Calendar.HOUR_OF_DAY));
             calendarValue.set(Calendar.MINUTE, timeValue.get(Calendar.MINUTE));
-            
+
             String taskName = getNameTask();
             String taskDescription = getDescriptionTask();
             Date taskTimeAlerts = calendarValue.getTime();
@@ -169,10 +168,10 @@ public class DialogForNewTask extends JDialog {
             Boolean timeAlertsBeforeCurrentValue = taskTimeAlerts.before(currentValueDate);
 
             if ((nameDontHaveTextsInField) && timeAlertsBeforeCurrentValue) {
-                    InformationDialog informationDialog = new InformationDialog();
-                    informationDialog.setTextInformationLabel("<html> <br> Полe \"Name Task\""
-                            + "обязательно должно быть заполнено! <br>"+ "\n Значение \"Time Alert's\""
-                            + "должно быть позже текущего времени!<br></html>");
+                InformationDialog informationDialog = new InformationDialog();
+                informationDialog.setTextInformationLabel("<html> <br> Полe \"Name Task\""
+                        + "обязательно должно быть заполнено! <br>"+ "\n Значение \"Time Alert's\""
+                        + "должно быть позже текущего времени!<br></html>");
             } else if(timeAlertsBeforeCurrentValue) {
                 InformationDialog informationDialog = new InformationDialog();
                 informationDialog.setTextInformationLabel("Значение \"Time Alert's\""
@@ -182,7 +181,7 @@ public class DialogForNewTask extends JDialog {
                 informationDialog.setTextInformationLabel("Полe \"Name Task\""
                         + "обязательно должно быть заполнено!");
 
-            //save task's datas:
+                //save task's datas:
             } else {
 
                 if (taskForEditing == null) {
@@ -198,20 +197,19 @@ public class DialogForNewTask extends JDialog {
                 dispose();
             }
         }
-    };
+    }
 
 
     public ActionListener getReadingDateValueForCreating() {
-        return readingDateValueForCreating;
+        return new ReadingDateValueForCreatingListener();
     }
 
-    private ActionListener cancelSaveValueFieldDialog = new ActionListener() {
+    private class  CancelSaveValueFieldDialogListener implements Serializable, ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
             String taskName = getNameTask();
             String taskDescription = getDescriptionTask();
-            Date taskTimeAlerts = getTimeAlertsTask();
             String taskContactsPhone = getContactsPhone();
             String taskContactsName = getContactsName();
 
@@ -236,10 +234,7 @@ public class DialogForNewTask extends JDialog {
         }
     }
 
-
-            ;
-
     public ActionListener getCancelSaveValueFieldDialog () {
-        return cancelSaveValueFieldDialog;
+        return new CancelSaveValueFieldDialogListener();
     }
 }

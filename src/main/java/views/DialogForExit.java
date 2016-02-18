@@ -40,14 +40,11 @@ public class DialogForExit extends JDialog {
         buttonsPanel.add(cancelExit);
 
         dialogExitFromCreatingTask.add(questionAboutExit);
-        dialogExitFromCreatingTask.add(new BorderLayout().SOUTH, buttonsPanel);
+        dialogExitFromCreatingTask.add(BorderLayout.SOUTH, buttonsPanel);
 
         dialogExitFromCreatingTask.setLayout(new FlowLayout());
         dialogExitFromCreatingTask.setSize(600,120);
         dialogExitFromCreatingTask.setVisible(true);
 		dialogExitFromCreatingTask.setLocationRelativeTo(null);
 	}
-   
-
-
 }

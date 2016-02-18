@@ -26,7 +26,7 @@ public class TaskManager {
 		model = new TaskModel();
 		model.setTasksToModel(tasksPersistence.loadingTasksFromFile());
 		view = new TaskView();
-		controller = new TaskController(model, view);
+		controller = new TaskController(model);
 		view.setTaskController(controller);
 		view.createMainWindow();
 		startThreadForNotification();

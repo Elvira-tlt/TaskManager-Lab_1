@@ -3,12 +3,10 @@ package notification;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.swing.*;
-
 import views.TaskView;
 import models.Task;
 import models.TaskModel;
@@ -16,7 +14,7 @@ import models.TaskModel;
 public class NotificationWindow extends JFrame {
 
     private Task taskForNotification;
-    static TaskModel taskModel;
+    private TaskModel taskModel;
     private TaskView taskView;
 
     private JButton stopButton = new JButton("Стоп");
@@ -37,8 +35,8 @@ public class NotificationWindow extends JFrame {
     public NotificationWindow(Task taskForNotification) {
         this.taskForNotification = taskForNotification;
 
-        stopButton.addActionListener(stop);
-        prorogueButton.addActionListener(prorogue);
+        stopButton.addActionListener(new StopButtonListener());
+        prorogueButton.addActionListener(new ProrogueButtonListener());
 
         JLabel nameLabel = new JLabel("Название/ имя задачи: ");
         JLabel taskName = new JLabel(taskForNotification.getName());
@@ -63,11 +61,10 @@ public class NotificationWindow extends JFrame {
         datasPanel.add(contactsLabel);
         datasPanel.add(contactsTask);
 
-
         panelButtons.add(stopButton);
         panelButtons.add(prorogueButton);
 
-        add(new BorderLayout().SOUTH, panelButtons);
+        add(BorderLayout.SOUTH, panelButtons);
         add(datasPanel);
 
         datasPanel.setLayout(new GridLayout(3, 2));
@@ -76,16 +73,15 @@ public class NotificationWindow extends JFrame {
         setVisible(true);
     }
 
-    ActionListener stop = new ActionListener() {
+    private class StopButtonListener implements Serializable, ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             taskView.updateTable();
             dispose();
         }
-    };
+    }
 
-
-    ActionListener prorogue = new ActionListener() {
+    private class ProrogueButtonListener implements Serializable, ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             Calendar calendarTaskForProrogue = new GregorianCalendar();
@@ -98,8 +94,7 @@ public class NotificationWindow extends JFrame {
             taskView.updateTable();
             dispose();
         }
-    };
-
+    }
 };
 
 

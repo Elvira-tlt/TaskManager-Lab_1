@@ -6,14 +6,9 @@ import java.util.Date;
 
 public class TaskOperation {
 	private Task task;
-	private TaskController taskController;
-	
+
 	public void setTask(Task task) {
 		this.task = task;
-	}
-	
-	public TaskOperation(TaskController taskController) {
-		this.taskController = taskController;
 	}
 	
 	//Setters models Task
@@ -43,7 +38,6 @@ public class TaskOperation {
     	setFieldsTask(nameTask, descriptionTask, timeAlertsTask, contactsPhone, contactsName);
     }
   
-    
     public void setFieldsTask(String nameTask, String descriptionTask, Date timeAlertsTask,
                                String contactsPhone, String contactsName) {
         setTaskName(nameTask);
@@ -57,8 +51,6 @@ public class TaskOperation {
     public Task getTaskForSave () {
     	return task;
     }
-    
-    
     
   //Getters models Task
     public String getTaskName() {

@@ -1,21 +1,19 @@
 package savingAndLoadingTasks;
 
+import models.Task;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import models.Task;
-import models.TaskModel;
-
-import org.jdom2.*;
-import org.jdom2.output.*;
-import org.jdom2.input.*;
 
 
 public class Database {

@@ -26,11 +26,11 @@ public class Task {
     }
 
     public  Date getTimeAlerts() {
-        return timeAlerts;
+        return  new Date(timeAlerts.getTime());
     }
 
     public void setTimeAlerts(Date timeAlerts) {
-        this.timeAlerts = timeAlerts;
+            this.timeAlerts = new Date(timeAlerts.getTime());
     }
 
     public String getContactsPhone() {
@@ -50,8 +50,4 @@ public class Task {
         this.contactsName = contactsName;
     }
 
-    //ПОЗЖЕ УДАЛИТЬ:
-    public String toString () {
-        return "Task:"+ name + " " + description+ " " + timeAlerts + " " + contactsPhone + " " + contactsName;
-    }
 }
